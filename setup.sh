@@ -32,10 +32,9 @@ fi
 if [[ "$action" == "2" ]]; then
     #Insert manual package installation steps
     echo -e "\e[36mStarting manual package installation...\e[0m"
-    sudo apt install wget unzip openjdk-17-jre -y
-    sudo apt install libgl1-mesa-glx libgl1-mesa-dri -y
-    sudo apt install libpulse0 libpulse-dev -y
-    sudo apt install gnome-keyring-pkcs11 gnome-keyring -y
+    sudo apt install wget unzip openjdk-17-jre libopengl0 -y
+    sudo apt install libpulse0 libpulse-dev mesa-utils pciutils -y
+    sudo apt install gnome-keyring-pkcs11 gnome-keyring debian-keyring debian-ports-archive-keyring -y
     # Ensure java can run properly from home directory
     echo 'export PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin' >> ~/.bashrc
     source ~/.bashrc
@@ -94,6 +93,17 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
         echo -e "\e[91mMinecraft installation failed. Please check for errors.\e[0m"
         exit 1
     fi
+    # look for any openGL drivers/packages/libraries that may be missing
+    echo -e "\e[36mChecking for missing OpenGL libraries...\e[0m"
+    # Check and install missing OpenGL libraries
+    for package in libgl1-mesa-glx libgl1-mesa-dri libpulse0 libpulse-dev gnome-keyring-pkcs11 gnome-keyring libopengl0; do
+      if ! dpkg -l | grep -q "$package"; then
+        echo -e "\e[36mInstalling missing package: $package\e[0m"
+        sudo apt install "$package" -y
+      else
+        echo -e "\e[92mPackage $package is already installed.\e[0m"
+      fi
+    done
     # Run the minecraft launcher once to create necessary folders
     echo -e "\e[36mRunning Minecraft Launcher to create necessary folders...\e[0m"
     minecraft-launcher &
