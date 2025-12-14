@@ -70,16 +70,13 @@ echo -e '\e[36mIf you already have downloaded the "Linux Backups" Folder, you ca
 echo -e "\e[36mDownload the required Linux Backups Folder?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
-
     echo -e "\e[36mDownloading the main folder from google drive\e[0m"
-
     # -----------------------------
     # Replaces wget Google Drive zip download
     # ID: 19kZRFX1LHTnAHdUc78ZXQ62oKbe7rizg
     # -----------------------------
     gdown "19kZRFX1LHTnAHdUc78ZXQ62oKbe7rizg" -O LinuxBackups.zip
-
-    echo -e "\e[36mUnziping the downloaded zip file\e[0m"
+    echo -e "\e[36mUnzipping the downloaded zip file\e[0m"
     unzip LinuxBackups.zip
 fi
 
@@ -97,6 +94,14 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
         echo -e "\e[91mMinecraft installation failed. Please check for errors.\e[0m"
         exit 1
     fi
+    # Run the minecraft launcher once to create necessary folders
+    echo -e "\e[36mRunning Minecraft Launcher to create necessary folders...\e[0m"
+    minecraft-launcher &
+    # Ask for the user for input so the program will wait until they have logged in
+    read -p "Press Enter after you have logged into Minecraft and the launcher is open..."
+    # Kill the minecraft launcher process
+    pkill minecraft-launcher
+    echo -e "\e[36mSetting up Fabric and copying saves/mods...\e[0m"
 
     # Check if Linux Backups folder exists before proceeding
     if [[ -d "$HOME/Linux Backups" ]]; then
