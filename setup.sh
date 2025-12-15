@@ -107,10 +107,10 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
     # Run the minecraft launcher once to create necessary folders
     echo -e "\e[36mRunning Minecraft Launcher to create necessary folders...\e[0m"
     minecraft-launcher &
-    # Ask for the user for input so the program will wait until they have logged in
-    read -p "Press Enter after you have logged into Minecraft and the launcher is open..."
-    # Kill the minecraft launcher process
-    pkill minecraft-launcher
+    # Wait for the launcher to close before proceeding
+    wait $!
+    echo -e "\e[92mMinecraft Launcher closed. Proceeding with setup...\e[0m"
+
     echo -e "\e[36mSetting up Fabric and copying saves/mods...\e[0m"
 
     # Check if Linux Backups folder exists before proceeding
