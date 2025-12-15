@@ -32,7 +32,7 @@ fi
 if [[ "$action" == "2" ]]; then
     #Insert manual package installation steps
     echo -e "\e[36mStarting manual package installation...\e[0m"
-    sudo apt install wget unzip openjdk-17-jre libopengl0 -y
+    sudo apt install unzip openjdk-17-jre libopengl0 -y
     sudo apt install libpulse0 libpulse-dev mesa-utils pciutils -y
     sudo apt install gnome-keyring-pkcs11 gnome-keyring debian-keyring debian-ports-archive-keyring -y
     # Ensure java can run properly from home directory
@@ -53,7 +53,7 @@ fi
 echo -e "\e[36mInstall recommended cros packages?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
-    sudo apt install cros-adapta cros-apt-config cros-garcon cros-guest-tools cros-host-fonts cros-im cros-logging cros-motd cros-notificationd cros-pipe-config cros-port-listener cros-pulse-config cros-sftp cros-sommelier cros-sommelier-config cros-sudo-config cros-systemd-overrides cros-tast-tests cros-ui-config cros-vmstat-metrics cros-wayland cros-xdg-desktop-portal -y
+    sudo apt install cros-adapta cros-apt-config cros-garcon cros-guest-tools cros-host-fonts cros-im cros-logging cros-motd cros-notificationd cros-pipe-config cros-port-listener cros-pulse-config cros-sftp cros-sommelier cros-sommelier-config cros-sudo-config cros-systemd-overrides cros-ui-config cros-vmstat-metrics cros-wayland cros-xdg-desktop-portal -y
 fi
 
 echo -e "\e[36mInstall relevant keyring and other recommended packages?\e[0m"
@@ -135,4 +135,7 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
         exit 1
     fi
 fi
+echo -e "\e[92mSuccess! You can now run the minecraft launcher!\e[0m"
+echo -e "\e[36mBe sure to use the fabric version you installed for best performance as the script gives you performance mods.\e[0m"
+echo -e "\e[36mIf you need a newer version of minecraft, please contact the developer on github.\e[0m"
 echo -e "\e[92mCrOS Minecraft Setup Complete!\e[0m"
