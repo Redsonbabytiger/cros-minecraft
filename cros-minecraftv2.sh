@@ -105,7 +105,9 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
       fi
     done
     # Run the minecraft launcher once to create necessary folders
-    echo -e "\e[36mRunning Minecraft Launcher to create necessary folders...\e[0m"
+    echo "Running Minecraft Launcher to create necessary folders..."
+    echo -e "\e[36mBe sure to close the Minecraft Launcher once you're signed-in\e[0m"
+    echo -e "\e[36mDon't start playing minecraft since the script is not finished\e[0m"
     minecraft-launcher &
     # Wait for the launcher to close before proceeding
     wait $!
