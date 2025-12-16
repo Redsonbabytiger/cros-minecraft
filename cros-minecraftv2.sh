@@ -132,6 +132,8 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
             sudo cp -rt ~/.minecraft "$HOME/Linux Backups/mods"
             sudo cp -rt ~/.minecraft "$HOME/Linux Backups/saves"
         fi
+        # Makes sure that the user owns the .minecraft folder so Minecraft can use the saves data
+        sudo chown -R $USER:$USER ~/.minecraft
     else
         echo -e "\e[91mError: Linux Backups folder not found. Please download it first.\e[0m"
         exit 1
