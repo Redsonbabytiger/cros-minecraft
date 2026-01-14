@@ -75,9 +75,7 @@ if [[ "$action" == "y" ]]; then
     # Zip File ID: 19kZRFX1LHTnAHdUc78ZXQ62oKbe7rizg
     # Folder ID: 1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv
     # -----------------------------
-    gdown "19kZRFX1LHTnAHdUc78ZXQ62oKbe7rizg" -O LinuxBackups.zip
-    echo -e "\e[36mUnzipping the downloaded zip file\e[0m"
-    unzip LinuxBackups.zip
+    gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$HOME/Linux Backups"
 fi
 
 # Here we check if the user did a manual install
