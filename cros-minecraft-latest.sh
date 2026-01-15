@@ -76,6 +76,11 @@ if [[ "$action" == "y" ]]; then
     # Folder ID: 1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv
     # -----------------------------
     gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$HOME/Linux Backups"
+    echo -e "\e[36mDownloading Minecraft Saves separately...\e[0m"
+    cd "$HOME/Linux Backups"
+    sleep 2
+    gdown "10U745I3ofgC3KI2vXn6gyK0Tyi2ww6hB" --folder
+    cd "$HOME/Linux Backups"
 fi
 
 # Here we check if the user did a manual install
