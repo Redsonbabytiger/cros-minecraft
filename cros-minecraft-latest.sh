@@ -28,6 +28,11 @@ if [[ "$action" == "1" ]]; then
     # ID: 1tOYQ74_ijmwMjFESw2EHJprlvDOmlMKo
     # -----------------------------
     gdown "1tOYQ74_ijmwMjFESw2EHJprlvDOmlMKo" -O chromeos-linux-with-minecraft-old.tini
+    echo -e "\e[36mCrostini image file downloaded. Remember to move it to your Downloads folder and restore it using the Chromebook settings.\e[0m"
+    echo -e "\e[36mRerun this script after restoring the image.\e[0m"
+    # Wait for user to acknowledge before exiting
+    read -p 'Press Enter to exit...'
+    exit 0
 fi
 if [[ "$action" == "2" ]]; then
     #Insert manual package installation steps
