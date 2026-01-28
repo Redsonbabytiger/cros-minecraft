@@ -21,6 +21,7 @@ echo -e "\e[36mChoice: Do you want to download the 2GB Crostini image file or\e[
 echo -e "\e[36mWould you like to manually install the necessary packages?\e[0m"
 echo -e "\e[36m1) Download Crostini image file\e[0m"
 echo -e "\e[36m2) Manually install packages\e[0m"
+echo -e "\e[36m3) Continue with main script (You already used the image file)\e[0m"
 read -p 'Choice: ' action
 if [[ "$action" == "1" ]]; then
     # -----------------------------
@@ -45,6 +46,9 @@ if [[ "$action" == "2" ]]; then
     source ~/.bashrc
     # Create variable to remind the script that the user chose manual install
     MANUAL_INSTALL=true
+fi
+if [[ "$action" == "3" ]]; then
+    echo -e "\e[36mContinuing with main script...\e[0m"
 fi
 
 # Update and upgrade apt packages
@@ -124,9 +128,7 @@ if [[ "$MANUAL_INSTALL" == true ]]; then
     # Wait for the launcher to close before proceeding
     wait $!
     echo -e "\e[92mMinecraft Launcher closed. Proceeding with setup...\e[0m"
-
     echo -e "\e[36mSetting up Fabric and copying saves/mods...\e[0m"
-
     # Check if Linux Backups folder exists before proceeding
     if [[ -d "$HOME/Linux Backups" ]]; then
         cd "$HOME/Linux Backups"
