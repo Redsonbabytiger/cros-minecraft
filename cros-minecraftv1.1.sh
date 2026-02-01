@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
-
+VERSION="1.1.0"
+if [[ "$1" == "--version" ]]; then
+    echo "cros-minecraft v$VERSION"
+    exit 0
+fi
 # ===== COLOR CODES =====
 CYAN="\e[36m"
 YELLOW="\e[33m"
