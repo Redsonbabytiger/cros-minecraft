@@ -34,30 +34,11 @@ pipx install gdown
 
 # Ensure shell sees pipx-installed tools
 export PATH="$PATH:$HOME/.local/bin"
-
-echo "Would you like to download the crostini image file?"
-echo "(You would have to take the image and restore it yourself first)"
-echo "REMEMBER TO MOVE THE CROSTINI IMAGE FILE TO YOUR DOWNLOADS FOLDER!"
-echo "DO NOT LEAVE IT IN YOUR LINUX FILES!"
-echo -e "\e[36mChoice: Do you want to download the 2GB Crostini image file or\e[0m"
-echo -e "\e[36mWould you like to manually install the necessary packages?\e[0m"
-echo -e "\e[36m1) Download Crostini image file\e[0m"
-echo -e "\e[36m2) Manually install packages\e[0m"
-echo -e "\e[36m3) Continue with main script (You already used the image file)\e[0m"
+echo -e "\e[36mChoice: Choose a installation option: \e[0m"
+echo -e "\e[36m1) Manually install packages\e[0m"
+echo -e "\e[36m2) Use the modern installer (Prism Launcher)\e[0m"
 read -p 'Choice: ' action
 if [[ "$action" == "1" ]]; then
-    # -----------------------------
-    # Replaces wget Google Drive hack
-    # ID: 1tOYQ74_ijmwMjFESw2EHJprlvDOmlMKo
-    # -----------------------------
-    gdown "1tOYQ74_ijmwMjFESw2EHJprlvDOmlMKo" -O chromeos-linux-with-minecraft-old.tini
-    echo -e "\e[36mCrostini image file downloaded. Remember to move it to your Downloads folder and restore it using the Chromebook settings.\e[0m"
-    echo -e "\e[36mRerun this script after restoring the image.\e[0m"
-    # Wait for user to acknowledge before exiting
-    read -p 'Press Enter to exit...'
-    exit 0
-fi
-if [[ "$action" == "2" ]]; then
     #Insert manual package installation steps
     echo -e "\e[36mStarting manual package installation...\e[0m"
     sudo apt install unzip openjdk-17-jre libopengl0 -y
@@ -69,8 +50,9 @@ if [[ "$action" == "2" ]]; then
     # Create variable to remind the script that the user chose manual install
     MANUAL_INSTALL=true
 fi
-if [[ "$action" == "3" ]]; then
-    echo -e "\e[36mContinuing with main script...\e[0m"
+if [[ "$action" == "2" ]]; then
+    echo -e "\e[36mContinuing with main script, will run Modern Installer when ready\e[0m"
+    MODERNINSTALL=true
 fi
 
 # Update and upgrade apt packages
@@ -109,14 +91,17 @@ if [[ "$action" == "y" ]]; then
     gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$HOME/Linux Backups"
 fi
 # Ask the user if they want to download the saves too
-echo -e "\e[36mDownload the saves folder separately?\e[0m"
+echo -e "\e[36mDownload the saves folder? (May not actually work, use at your own risk)\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
     echo -e "\e[36mDownloading Minecraft Saves separately...\e[0m"
     cd "$HOME/Linux Backups"
     gdown "10U745I3ofgC3KI2vXn6gyK0Tyi2ww6hB" --folder
 fi
-
+if [[ "$MODERNINSTALL" == true ]]; then
+    echo "Running the prism launcher install script."
+    cros-minecraft-moderninstall
+fi
 # Here we check if the user did a manual install
 if [[ "$MANUAL_INSTALL" == true ]]; then
     # install minecraft package found in Linux Backups folder
