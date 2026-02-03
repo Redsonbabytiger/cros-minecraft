@@ -7,6 +7,24 @@ if [[ "$1" == "--version" ]]; then
     echo "cros-minecraft v$VERSION"
     exit 0
 fi
+if [[ "$1" == "--help" ]]; then
+    echo "To run cros-minecraft itself, the command is simple"
+    echo "Use 'cros-minecraft' to run the script."
+    echo "However, there are other subcommands you can use if you want to be fancy."
+    echo "Use 'cros-minecraft-moderninstall' to install prism-launcher"
+    echo "(Only exists in v3 of cros-minecraft)"
+    echo "And finally, use 'cros-minecraft-legacyinstall' to install the normal minecraft launcher just like old times."
+    echo "(In use by versions prior to v3)"
+    echo "If you are running this script directly off of github, it may or may not actually have v3 features"
+    echo "so only try them if you are sure that you installed v3."
+    echo "You may check what version you are on using the --version flag when you use the command."
+    exit 0
+fi
+if [[ "$1" == "--moderninstall" ]]; then
+    echo "Running the prism launcher install script."
+    cros-minecraft-moderninstall
+    exit 0
+fi
 # --- Ensure pipx + gdown installed FIRST ---
 echo -e "\e[36mInstalling pipx and gdown (required for downloads)...\e[0m"
 sudo apt update
