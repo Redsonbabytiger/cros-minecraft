@@ -3,6 +3,7 @@
 # Run this script to automatically download and setup all necessary packages and files
 # in order to play Minecraft on your Chromebook.
 VERSION="3.0pre"
+MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
 if [[ "$1" == "--version" ]]; then
     echo "cros-minecraft v$VERSION"
     exit 0
@@ -97,15 +98,7 @@ if [[ "$action" == "y" ]]; then
     # Zip File ID: 19kZRFX1LHTnAHdUc78ZXQ62oKbe7rizg
     # Folder ID: 1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv
     # -----------------------------
-    gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$HOME/Linux Backups"
-fi
-# Ask the user if they want to download the saves too
-echo -e "\e[36mDownload the saves folder? (May not actually work, use at your own risk)\e[0m"
-read -p 'y/n: ' action
-if [[ "$action" == "y" ]]; then
-    echo -e "\e[36mDownloading Minecraft Saves separately...\e[0m"
-    cd "$HOME/Linux Backups"
-    gdown "10U745I3ofgC3KI2vXn6gyK0Tyi2ww6hB" --folder
+    gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$MC_INSTALLER_DATA"
 fi
 if [[ "$MODERNINSTALL" == true ]]; then
     echo "Running the prism launcher install script."
