@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Cros Minecraft
+Comment=Minecraft installer for Crostini on ChromeOS
+Exec=cros-minecraft
+Icon=cros-minecraft
+Terminal=true
+Type=Application
+Categories=Game;Utility;

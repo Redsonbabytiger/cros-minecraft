@@ -1,0 +1,12 @@
+Package: cros-minecraft
+Version: 3.0
+Section: games
+Priority: optional
+Architecture: amd64
+Depends: bash, coreutils, pipx, python3-venv
+Maintainer: Redsonbabytiger <github.com/Redsonbabytiger>
+Description: Cros Minecraft installer script
+ A terminal-based installer for Minecraft on ChromeOS Linux (Crostini).
+ This package installs the cros-minecraft command,
+ as well as the sub-commands that the package uses.
+ Use the flag --help with the cros-minecraft command for more information.

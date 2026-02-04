@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Cros Minecraft Launch Mode
+Comment=Use this to launch Minecraft directly
+Exec=cros-minecraft --run
+Icon=cros-minecraft
+Terminal=true
+Type=Application
+Categories=Game;Utility;
