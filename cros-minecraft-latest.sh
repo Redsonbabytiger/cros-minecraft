@@ -88,8 +88,8 @@ fi
 
 echo "We are about to start the main part of the script."
 echo "Which is to download the main folder which contains the files we need."
-echo -e '\e[36mIf you already have downloaded the "Linux Backups" Folder, you can skip this step.\e[0m'
-echo -e "\e[36mDownload the required Linux Backups Folder?\e[0m"
+echo -e '\e[36mIf you already have downloaded the folder, you can skip this step.\e[0m'
+echo -e "\e[36mDownload the required Cros-Minecraft files?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
     echo -e "\e[36mDownloading the main folder from google drive\e[0m"
