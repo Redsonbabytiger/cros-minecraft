@@ -17,9 +17,13 @@ INSTANCES_DIR="$PRISM_DIR/instances"
 INSTANCE_NAME="PerfFabric"
 INSTANCE_DIR="$INSTANCES_DIR/$INSTANCE_NAME"
 MC_DIR="$INSTANCE_DIR/minecraft"
+MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
 
 # ---- Download mod pack data ----
-#gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$HOME/Linux Backups"
+if [ ! -d "$MC_INSTALLER_DATA" ]; then
+  echo "Cros-Minecraft Installer Data folder not found, downloading it..."
+  gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$MC_INSTALLER_DATA"
+fi
 
 # ---- Create instance structure (ONLY if missing) ----
 if [ ! -d "$INSTANCE_DIR" ]; then
@@ -52,7 +56,7 @@ fi
 
 # ---- Install mods ----
 rm -rf "$MC_DIR/mods"
-cp -r "$HOME/Linux Backups/mods" "$MC_DIR/mods"
+cp -r "$MC_INSTALLER_DATA/mods" "$MC_DIR/mods"
 
 # ---- Launch instance ----
 QT_QPA_PLATFORM=xcb \
