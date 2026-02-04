@@ -1,4 +1,8 @@
 MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
+if [ ! -d "$MC_INSTALLER_DATA" ]; then
+  echo "Cros-Minecraft Installer Data folder not found, downloading it..."
+  gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$MC_INSTALLER_DATA"
+fi
 sudo dpkg -i "$MC_INSTALLER_DATA/libgdk-pixbuf2.0-0.deb"
 # install minecraft package found in Linux Backups folder
 echo -e "\e[36mInstalling Minecraft package from Linux Backups...\e[0m"
