@@ -2,7 +2,7 @@
 # Minecraft Files Automated Download/Setup Script
 # Run this script to automatically download and setup all necessary packages and files
 # in order to play Minecraft on your Chromebook.
-VERSION="2.1.0"
+VERSION="3.0pre"
 if [[ "$1" == "--version" ]]; then
     echo "cros-minecraft v$VERSION"
     exit 0
@@ -23,6 +23,12 @@ fi
 if [[ "$1" == "--moderninstall" ]]; then
     echo "Running the prism launcher install script."
     cros-minecraft-moderninstall
+    exit 0
+fi
+if [[ "$1" == "--run" ]]; then
+    echo "Launching Minecraft (PerfFabric Instance)"
+    export QT_QPA_PLATFORM=xcb
+    exec flatpak run org.prismlauncher.PrismLauncher "$@"
     exit 0
 fi
 # --- Ensure pipx + gdown installed FIRST ---
@@ -49,6 +55,7 @@ if [[ "$action" == "1" ]]; then
     source ~/.bashrc
     # Create variable to remind the script that the user chose manual install
     MANUAL_INSTALL=true
+    MODERNINSTALL=false
 fi
 if [[ "$action" == "2" ]]; then
     echo -e "\e[36mContinuing with main script, will run Modern Installer when ready\e[0m"
@@ -101,9 +108,11 @@ fi
 if [[ "$MODERNINSTALL" == true ]]; then
     echo "Running the prism launcher install script."
     cros-minecraft-moderninstall
+    MANUAL_INSTALL=false
 fi
 # Here we check if the user did a manual install
 if [[ "$MANUAL_INSTALL" == true ]]; then
+    sudo dpkg -i "$HOME/Linux Backups/libgdk-pixbuf2.0-0.deb"
     # install minecraft package found in Linux Backups folder
     echo -e "\e[36mInstalling Minecraft package from Linux Backups...\e[0m"
     sudo dpkg -i "$HOME/Linux Backups/Minecraft.deb"
