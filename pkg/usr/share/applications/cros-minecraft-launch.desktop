@@ -1,8 +1,9 @@
 [Desktop Entry]
 Name=Cros Minecraft Launch Mode
 Comment=Use this to launch Minecraft directly
-Exec=cros-minecraft --run
+Exec=cros-minecraft-moderninstall
 Icon=cros-minecraft
 Terminal=true
 Type=Application
 Categories=Game;Utility;
+Keywords=Minecraft;Crostini;ChromeOS;Launcher;
