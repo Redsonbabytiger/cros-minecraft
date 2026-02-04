@@ -31,10 +31,16 @@ if [[ "$1" == "--vscode" ]]; then
     sudo dpkg -i "code_1.108.2-1769004815_amd64.deb"
     exit 0
 fi
-if [[ "$1" == "--run" ]]; then
-    echo "Launching Minecraft (PerfFabric Instance)"
+if [[ "$1" == "--launcher" ]]; then
     export QT_QPA_PLATFORM=xcb
     exec flatpak run org.prismlauncher.PrismLauncher "$@"
+fi
+if [[ "$1" == "--run" ]]; then
+    echo "Launching Minecraft (PerfFabric Instance)"
+    QT_QPA_PLATFORM=xcb \
+    flatpak run \
+    org.prismlauncher.PrismLauncher \
+    --launch "$INSTANCE_NAME"
     exit 0
 fi
 # --- Ensure pipx + gdown installed FIRST ---
