@@ -1,7 +1,8 @@
-sudo dpkg -i "$HOME/Linux Backups/libgdk-pixbuf2.0-0.deb"
+MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
+sudo dpkg -i "$MC_INSTALLER_DATA/libgdk-pixbuf2.0-0.deb"
 # install minecraft package found in Linux Backups folder
 echo -e "\e[36mInstalling Minecraft package from Linux Backups...\e[0m"
-sudo dpkg -i "$HOME/Linux Backups/Minecraft.deb"
+sudo dpkg -i "$MC_INSTALLER_DATA/Minecraft.deb"
 # fix any missing dependencies
 sudo apt --fix-broken install -y
 # Check if minecraft installed correctly
@@ -32,8 +33,8 @@ wait $!
 echo -e "\e[92mMinecraft Launcher closed. Proceeding with setup...\e[0m"
 echo -e "\e[36mSetting up Fabric and copying saves/mods...\e[0m"
 # Check if Linux Backups folder exists before proceeding
-if [[ -d "$HOME/Linux Backups" ]]; then
-    cd "$HOME/Linux Backups"
+if [[ -d "$MC_INSTALLER_DATA" ]]; then
+    cd "$MC_INSTALLER_DATA"
     echo -e "\e[36mRunning fabric installer for 1.21.10\e[0m"
     echo -e "\e[36mYou will need to select 1.21.10 as your fabric version.\e[0m"
     echo -e "\e[36m(The downloaded mods are for fabric 1.21.10)\e[0m"
@@ -44,12 +45,11 @@ if [[ -d "$HOME/Linux Backups" ]]; then
         cd ~/.minecraft
         sudo rm -rf saves
         sudo rm -rf mods
-        sudo cp -rt ~/.minecraft "$HOME/Linux Backups/mods"
-        sudo cp -rt ~/.minecraft "$HOME/Linux Backups/saves"
+        sudo cp -rt ~/.minecraft "$MC_INSTALLER_DATA/mods"
+        sudo cp -rt ~/.minecraft "$MC_INSTALLER_DATA/saves"
     fi
     # Makes sure that the user owns the .minecraft folder so Minecraft can use the saves data
     sudo chown -R $USER:$USER ~/.minecraft
 else
     echo -e "\e[91mError: Linux Backups folder not found. Please download it first.\e[0m"
     exit 1
-    fi
