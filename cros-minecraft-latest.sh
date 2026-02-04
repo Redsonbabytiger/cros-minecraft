@@ -26,6 +26,11 @@ if [[ "$1" == "--moderninstall" ]]; then
     cros-minecraft-moderninstall
     exit 0
 fi
+if [[ "$1" == "--vscode" ]]; then
+    curl -LO "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
+    sudo dpkg -i "code_1.108.2-1769004815_amd64.deb"
+    exit 0
+fi
 if [[ "$1" == "--run" ]]; then
     echo "Launching Minecraft (PerfFabric Instance)"
     export QT_QPA_PLATFORM=xcb
