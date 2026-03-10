@@ -11,10 +11,14 @@ export QT_QPA_PLATFORM=xcb
 # ---- Install Prism Launcher ----
 flatpak install -y flathub org.prismlauncher.PrismLauncher
 
+# ---- Minecraft Configuration ----
+MC_VERSION="1.21.10"
+FABRIC_LOADER_VERSION="0.18.4"
+
 # ---- Paths ----
 PRISM_DIR="$HOME/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher"
 INSTANCES_DIR="$PRISM_DIR/instances"
-INSTANCE_NAME="PerfFabric"
+INSTANCE_NAME="PerfFabric ""$MC_VERSION"
 INSTANCE_DIR="$INSTANCES_DIR/$INSTANCE_NAME"
 MC_DIR="$INSTANCE_DIR/minecraft"
 MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
@@ -36,18 +40,18 @@ name=$INSTANCE_NAME
 icon=default
 EOF
 
-  # mmc-pack.json (Fabric)
+    # mmc-pack.json (Fabric)
   cat > "$INSTANCE_DIR/mmc-pack.json" <<EOF
 {
   "formatVersion": 1,
   "components": [
     {
       "uid": "net.minecraft",
-      "version": "1.21.10"
+      "version": "$MC_VERSION"
     },
     {
       "uid": "net.fabricmc.fabric-loader",
-      "version": "0.18.4"
+      "version": "$FABRIC_LOADER_VERSION"
     }
   ]
 }
