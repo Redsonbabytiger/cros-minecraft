@@ -2,7 +2,7 @@
 set -e
 
 # ---- Dependencies ----
-sudo apt install -y flatpak libgl-image-display0 libgle3
+sudo apt install -y flatpak libgl-image-display0 libgle3 curl jq
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # ---- Force X11 (prevents Wayland crashes on Crostini) ----
@@ -11,17 +11,94 @@ export QT_QPA_PLATFORM=xcb
 # ---- Install Prism Launcher ----
 flatpak install -y flathub org.prismlauncher.PrismLauncher
 
-# ---- Minecraft Configuration ----
-MC_VERSION="1.21.10"
-FABRIC_LOADER_VERSION="0.18.4"
+# ---- Ask User About Custom Config ----
+echo -e "\e[36mWhat version of minecraft would you like?(Default is 1.21.10)\e[0m"
+read -p 'y for default, specify version otherwise: ' action
+if [[ "$action" == "y" ]]; then
+  MC_VERSION="1.21.10"
+  FABRIC_LOADER_VERSION="0.18.4"
+fi
+if [[ "$action" != "y" ]]; then
+  MC_VERSION="$action"
+  FABRIC_LOADER_VERSION="0.18.4"
+fi
 
 # ---- Paths ----
 PRISM_DIR="$HOME/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher"
 INSTANCES_DIR="$PRISM_DIR/instances"
-INSTANCE_NAME="PerfFabric ""$MC_VERSION"
+INSTANCE_NAME="PerfFabric-$MC_VERSION"
 INSTANCE_DIR="$INSTANCES_DIR/$INSTANCE_NAME"
 MC_DIR="$INSTANCE_DIR/minecraft"
 MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
+MODS_DIR="$MC_INSTALLER_DATA/mods"
+USER_AGENT="Redsonbabytiger/Cros-Minecraft/3.1"
+LOADER="fabric"
+
+# ---- Mod Fetching Function ----
+mkdir -p "$MC_DIR/mods"
+
+# List of mods to install
+MOD_LIST=(
+sodium
+lithium
+ferrite-core
+starlight
+lazydfu
+modernfix
+immediatelyfast
+cloth-config
+crash-assistant
+fabric-api
+worldedit
+ixeris
+jade
+moreculling
+architectury-api
+)
+
+install_mod() {
+
+    MOD_SLUG="$1"
+
+    echo "Checking $MOD_SLUG..."
+
+    RESPONSE=$(curl -s \
+    -H "User-Agent: $USER_AGENT" \
+    "https://api.modrinth.com/v2/project/$MOD_SLUG/version?loaders=[\"$LOADER\"]&game_versions=[\"$MC_VERSION\"]")
+
+    FILE_URL=$(echo "$RESPONSE" | jq -r '.[0].files[0].url')
+    FILE_NAME=$(echo "$RESPONSE" | jq -r '.[0].files[0].filename')
+
+    if [ "$FILE_URL" == "null" ]; then
+        echo "No compatible version found for $MOD_SLUG"
+        return
+    fi
+
+    if [ -f "$MODS_DIR/$FILE_NAME" ]; then
+        echo "$FILE_NAME already installed"
+    else
+        echo "Downloading $FILE_NAME..."
+        curl -L -H "User-Agent: $USER_AGENT" "$FILE_URL" -o "$MODS_DIR/$FILE_NAME"
+    fi
+
+    # Install dependencies
+    DEP_IDS=$(echo "$RESPONSE" | jq -r '.[0].dependencies[]? | select(.dependency_type=="required") | .project_id')
+
+    for DEP in $DEP_IDS; do
+        DEP_SLUG=$(curl -s \
+        -H "User-Agent: $USER_AGENT" \
+        "https://api.modrinth.com/v2/project/$DEP" \
+        | jq -r '.slug')
+
+        install_mod "$DEP_SLUG"
+    done
+}
+
+for MOD in "${MOD_LIST[@]}"; do
+    install_mod "$MOD"
+done
+
+echo "All mods installed!"
 
 # ---- Download mod pack data ----
 if [ ! -d "$MC_INSTALLER_DATA" ]; then
@@ -31,7 +108,6 @@ fi
 
 # ---- Create instance structure (ONLY if missing) ----
 if [ ! -d "$INSTANCE_DIR" ]; then
-  mkdir -p "$MC_DIR/mods"
 
   # instance.cfg
   cat > "$INSTANCE_DIR/instance.cfg" <<EOF

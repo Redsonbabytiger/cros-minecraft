@@ -1,0 +1,11 @@
+usr/
+├── bin/
+│   └── cros-minecraft
+├── share/
+│   ├── applications/
+│   │   └── cros-minecraft.desktop
+│   └── icons/
+│       └── hicolor/
+│           └── scalable/
+│               └── apps/
+│                   └── cros-minecraft.svg
