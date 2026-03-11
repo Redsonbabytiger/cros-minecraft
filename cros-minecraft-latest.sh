@@ -2,7 +2,7 @@
 # Minecraft Files Automated Download/Setup Script
 # Run this script to automatically download and setup all necessary packages and files
 # in order to play Minecraft on your Chromebook.
-VERSION="3.0pre"
+VERSION="3.1"
 MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
 if [[ "$1" == "--version" ]]; then
     echo "cros-minecraft v$VERSION"
@@ -46,7 +46,7 @@ fi
 # --- Ensure pipx + gdown installed FIRST ---
 echo -e "\e[36mInstalling pipx and gdown (required for downloads)...\e[0m"
 sudo apt update
-sudo apt install -y pipx python3-venv
+sudo apt install -y pipx python3-venv curl jq
 pipx ensurepath
 pipx install gdown
 
@@ -99,6 +99,8 @@ fi
 
 echo "We are about to start the main part of the script."
 echo "Which is to download the main folder which contains the files we need."
+echo "There is a newer method of downloading the mods if you plan to use the modern-install"
+echo "option for cros-minecraft. Don't bother downloading the main folder if you plan to use this feature."
 echo -e '\e[36mIf you already have downloaded the folder, you can skip this step.\e[0m'
 echo -e "\e[36mDownload the required Cros-Minecraft files?\e[0m"
 read -p 'y/n: ' action
