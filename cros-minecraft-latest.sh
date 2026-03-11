@@ -93,7 +93,7 @@ fi
 echo -e "\e[36mInstall relevant keyring and other recommended packages?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
-    sudo apt install nano neofetch pcmanfm htop debian-keyring debian-ports-archive-keyring python3-keyring pipx python3-venv -y
+    sudo apt install nano pcmanfm htop debian-keyring debian-ports-archive-keyring python3-keyring pipx python3-venv -y
     pipx ensurepath
 fi
 

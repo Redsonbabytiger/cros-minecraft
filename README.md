@@ -38,19 +38,17 @@ Automatically create a Fabric instance
 
 Copy the performance mods to the instance
 
-After the first login, launching your modded Minecraft is as simple as:
-
-cros-minecraft --run
+After the first login, launching your modded Minecraft is as simple as using the cros-minecraft launch mode desktop shortcut.
 
 Usage
 
 Find and install the latest release of cros-minecraft (currently v3)
 
-Run the install script once for setup
+Run the install script once for setup using the command cros-minecraft
 
 When the script asks for which installation method, choose Modern Launcher (for prism launcher)
 
-Use "cros-minecraft --run" to launch minecraft directly
+Use desktop shortcuts for ease of use.
 
 Directory Structure
 
@@ -78,7 +76,7 @@ Notes
 
 First launch requires logging in via Prism Launcher GUI for authentication
 
-Supports Minecraft 1.21.10 with Fabric Loader only
+Supports Minecraft 1.21.10 with Fabric Loader only (Custom minecraft versions coming soon)
 
 Designed to prevent Wayland/X11 crashes on Crostini
 
