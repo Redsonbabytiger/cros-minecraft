@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 # ---- Dependencies ----
 sudo apt install -y flatpak libgl-image-display0 libgle3 curl jq
@@ -12,13 +12,12 @@ export QT_QPA_PLATFORM=xcb
 flatpak install -y flathub org.prismlauncher.PrismLauncher
 
 # ---- Ask User About Custom Config ----
-echo -e "\e[36mWhat version of minecraft would you like?(Default is 1.21.10)\e[0m"
-read -p 'y for default, specify version otherwise: ' action
-if [[ "$action" == "y" ]]; then
+echo -e "\e[36mWhat version of minecraft would you like? (Default is 1.21.10)\e[0m"
+read -p 'Press ENTER for default or type a version: ' action
+if [[ -z "$action" || "$action" == "y" ]]; then
   MC_VERSION="1.21.10"
   FABRIC_LOADER_VERSION="0.18.4"
-fi
-if [[ "$action" != "y" ]]; then
+else
   MC_VERSION="$action"
   FABRIC_LOADER_VERSION="0.18.4"
 fi
@@ -62,14 +61,24 @@ install_mod() {
 
     echo "Checking $MOD_SLUG..."
 
-    RESPONSE=$(curl -s \
+    # use --get with urlencode to avoid mis-formatted params
+    RESPONSE=$(curl -s --get \
     -H "User-Agent: $USER_AGENT" \
-    "https://api.modrinth.com/v2/project/$MOD_SLUG/version?loaders=[\"$LOADER\"]&game_versions=[\"$MC_VERSION\"]")
+    --data-urlencode "loaders=[\"$LOADER\"]" \
+    --data-urlencode "game_versions=[\"$MC_VERSION\"]" \
+    "https://api.modrinth.com/v2/project/$MOD_SLUG/version")
+
+    # if API didn't return anything useful, bail early
+    if [ -z "$RESPONSE" ] || [ "$RESPONSE" == "[]" ]; then
+        echo "No version information returned for $MOD_SLUG (response: $RESPONSE)"
+        return
+    fi
 
     FILE_URL=$(echo "$RESPONSE" | jq -r '.[0].files[0].url')
     FILE_NAME=$(echo "$RESPONSE" | jq -r '.[0].files[0].filename')
 
-    if [ "$FILE_URL" == "null" ]; then
+    # guard against empty or null URLs which cause curl errors
+    if [ -z "$FILE_URL" ] || [ "$FILE_URL" == "null" ]; then
         echo "No compatible version found for $MOD_SLUG"
         return
     fi
