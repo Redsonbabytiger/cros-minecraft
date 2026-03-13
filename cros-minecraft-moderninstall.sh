@@ -33,8 +33,35 @@ MODS_DIR="$MC_INSTALLER_DATA/mods"
 USER_AGENT="Redsonbabytiger/Cros-Minecraft/3.1"
 LOADER="fabric"
 
+# ---- Create instance structure (ONLY if missing) ----
+if [ ! -d "$INSTANCE_DIR" ]; then
+
+  # instance.cfg
+  cat > "$INSTANCE_DIR/instance.cfg" <<EOF
+InstanceType=OneSix
+name=$INSTANCE_NAME
+icon=default
+EOF
+
+    # mmc-pack.json (Fabric)
+  cat > "$INSTANCE_DIR/mmc-pack.json" <<EOF
+{
+  "formatVersion": 1,
+  "components": [
+    {
+      "uid": "net.minecraft",
+      "version": "$MC_VERSION"
+    },
+    {
+      "uid": "net.fabricmc.fabric-loader",
+      "version": "$FABRIC_LOADER_VERSION"
+    }
+  ]
+}
+EOF
+fi
+
 # ---- Mod Fetching Function ----
-mkdir -p "$MC_DIR/mods"
 
 # List of mods to install
 MOD_LIST=(
@@ -58,6 +85,8 @@ architectury-api
 install_mod() {
 
     MOD_SLUG="$1"
+
+    mkdir -p "$MODS_DIR"
 
     echo "Checking $MOD_SLUG..."
 
@@ -109,41 +138,8 @@ done
 
 echo "All mods installed!"
 
-# ---- Download mod pack data ----
-if [ ! -d "$MC_INSTALLER_DATA" ]; then
-  echo "Cros-Minecraft Installer Data folder not found, downloading it..."
-  gdown "1S0O37qCyuVO1Oka23sO4P5aryYSg0-Xv" --folder -O "$MC_INSTALLER_DATA"
-fi
-
-# ---- Create instance structure (ONLY if missing) ----
-if [ ! -d "$INSTANCE_DIR" ]; then
-
-  # instance.cfg
-  cat > "$INSTANCE_DIR/instance.cfg" <<EOF
-InstanceType=OneSix
-name=$INSTANCE_NAME
-icon=default
-EOF
-
-    # mmc-pack.json (Fabric)
-  cat > "$INSTANCE_DIR/mmc-pack.json" <<EOF
-{
-  "formatVersion": 1,
-  "components": [
-    {
-      "uid": "net.minecraft",
-      "version": "$MC_VERSION"
-    },
-    {
-      "uid": "net.fabricmc.fabric-loader",
-      "version": "$FABRIC_LOADER_VERSION"
-    }
-  ]
-}
-EOF
-fi
-
 # ---- Install mods ----
+mkdir -p "$MC_DIR/mods"
 rm -rf "$MC_DIR/mods"
 cp -r "$MC_INSTALLER_DATA/mods" "$MC_DIR/mods"
 
