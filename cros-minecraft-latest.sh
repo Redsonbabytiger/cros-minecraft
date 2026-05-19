@@ -82,7 +82,7 @@ fi
 echo -e "\e[36mInstall recommended cros packages?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
-    sudo apt install cros-adapta cros-apt-config cros-garcon cros-guest-tools cros-host-fonts cros-logging cros-motd cros-notificationd cros-pipe-config cros-port-listener cros-sftp cros-sommelier cros-sommelier-config cros-sudo-config cros-systemd-overrides cros-ui-config cros-vmstat-metrics cros-wayland cros-xdg-desktop-portal -y
+    sudo apt install cros-adapta cros-apt-config cros-garcon cros-host-fonts cros-logging cros-motd cros-notificationd cros-pipe-config cros-port-listener cros-sftp cros-sommelier cros-sommelier-config cros-sudo-config cros-systemd-overrides cros-ui-config cros-vmstat-metrics cros-wayland cros-xdg-desktop-portal -y
 fi
 
 echo -e "\e[36mInstall relevant keyring and other recommended packages?\e[0m"
