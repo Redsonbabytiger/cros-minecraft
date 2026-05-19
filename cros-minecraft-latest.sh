@@ -2,7 +2,7 @@
 # Minecraft Files Automated Download/Setup Script
 # Run this script to automatically download and setup all necessary packages and files
 # in order to play Minecraft on your Chromebook.
-VERSION="3.1"
+VERSION="3.2"
 MC_INSTALLER_DATA="$HOME/cros-minecraft-packages"
 if [[ "$1" == "--version" ]]; then
     echo "cros-minecraft v$VERSION"
@@ -24,11 +24,6 @@ fi
 if [[ "$1" == "--moderninstall" ]]; then
     echo "Running the prism launcher install script."
     cros-minecraft-moderninstall
-    exit 0
-fi
-if [[ "$1" == "--vscode" ]]; then
-    curl -LO "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
-    sudo dpkg -i "code_1.108.2-1769004815_amd64.deb"
     exit 0
 fi
 if [[ "$1" == "--launcher" ]]; then
@@ -87,13 +82,13 @@ fi
 echo -e "\e[36mInstall recommended cros packages?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
-    sudo apt install cros-adapta cros-apt-config cros-garcon cros-guest-tools cros-host-fonts cros-im cros-logging cros-motd cros-notificationd cros-pipe-config cros-port-listener cros-pulse-config cros-sftp cros-sommelier cros-sommelier-config cros-sudo-config cros-systemd-overrides cros-ui-config cros-vmstat-metrics cros-wayland cros-xdg-desktop-portal -y
+    sudo apt install cros-adapta cros-apt-config cros-garcon cros-guest-tools cros-host-fonts cros-logging cros-motd cros-notificationd cros-pipe-config cros-port-listener cros-sftp cros-sommelier cros-sommelier-config cros-sudo-config cros-systemd-overrides cros-ui-config cros-vmstat-metrics cros-wayland cros-xdg-desktop-portal -y
 fi
 
 echo -e "\e[36mInstall relevant keyring and other recommended packages?\e[0m"
 read -p 'y/n: ' action
 if [[ "$action" == "y" ]]; then
-    sudo apt install nano pcmanfm htop debian-keyring debian-ports-archive-keyring python3-keyring pipx python3-venv -y
+    sudo apt install nano pcmanfm fastfetch htop debian-keyring debian-ports-archive-keyring python3-keyring pipx python3-venv -y
     pipx ensurepath
 fi
 
